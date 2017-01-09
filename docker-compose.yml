@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  proxy:
+    image: abiosoft/caddy:0.9.3
+    volumes:
+      - "./proxy/Caddyfile:/etc/Caddyfile"
+    ports:
+      - "80:80"
+      - "443:443"
+  web:
+    build:
+      context: ./web
+    ports:
+     - "3000:3000"
+     - "4000:4000"
+    volumes:
+     - .:/usr/src/app
+     - ./dot-wiki:/home/app/.wiki/
