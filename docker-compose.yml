@@ -16,7 +16,7 @@ services:
      - "4000:4000"
     volumes:
      - .:/usr/src/app
-     - ./dot-wiki:/root/.wiki
+     - ./dot-wiki:/home/app/.wiki
     command:
       - wiki
       - --autoseed
