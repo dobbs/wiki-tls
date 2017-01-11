@@ -7,13 +7,7 @@ RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 595E85A6B1B4779EA4DAA
  && gpg --verify /tini.asc \
  && chmod +x /tini
 
-RUN groupadd -r app \
- && useradd -m -r -g app app
 RUN npm install -g wiki
-
-WORKDIR /home/app
-
-USER app
 
 ENTRYPOINT ["/tini", "--"]
 CMD ["wiki", "--autoseed", "--farm"]

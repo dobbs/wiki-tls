@@ -16,4 +16,12 @@ services:
      - "4000:4000"
     volumes:
      - .:/usr/src/app
-     - ./dot-wiki:/home/app/.wiki/
+     - ./dot-wiki:/root/.wiki
+    command:
+      - wiki
+      - --autoseed
+      - --farm
+      - --security_type
+      - friends
+      - --cookie-secret
+      - not-very-secret
