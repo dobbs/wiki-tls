@@ -1,0 +1,7 @@
+:443,
+:80
+gzip
+tls self_signed
+proxy / web:3000 {
+  transparent
+}

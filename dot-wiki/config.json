@@ -1,0 +1,11 @@
+{
+  "admin" : "wiki-admin",
+  "autoseed" : true,
+  "farm" : true,
+  "security_type" : "friends",
+  "cookieSecret" : "please-pick-a-better-secret-not-published-on-github",
+  "secure_cookie" : true,
+  "wikiDomains": {
+    "localtest.me": { "id": "/home/app/.wiki/localtest.me.owner.json" }
+  }
+}
