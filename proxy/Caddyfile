@@ -1,8 +1,0 @@
-:443
-gzip
-tls self_signed
-log stdout
-errors stdout
-proxy / web:3000 {
-  transparent
-}
