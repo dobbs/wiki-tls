@@ -43,3 +43,27 @@ Some really helpful places to start here: http://hello.ward.bay.wiki.org/
 Point your browser to https://homestead.localtest.me and notice that
 this is a new wiki, and already claimed by you.  (Not all wiki's do
 that particular trick, and we'll explain the magic later.)
+
+# Notes that maybe only apply to me
+
+I have [The Docker Toolbox] installed on an older Mac which does not
+have the necessary processor to run [Docker for Mac].  That means my
+docker processes run in a virtual machine which is not `localhost` nor
+`127.0.0.1` (nor `::1` for that matter).  And _that_ means the simple
+brilliance of [localtest.me] needs a little extra fiddling to work
+with my containerized experiments.
+
+I set up an ad hoc reverse proxy to listen on `127.0.0.1` ports `:80`
+and `:443` and forward the requests to the local virtual machine.  I
+run the following commands in a separate window:
+
+``` bash
+brew install caddy # only need to do this once
+IP=$(docker-machine active | xargs docker-machine ip)
+printf "%s\n" :80, :443 'log stdout' 'errors stdout' 'tls self_signed' \
+  "proxy / $IP { transparent }" | sudo caddy -conf stdin
+```
+
+[The Docker Toolbox]: https://www.docker.com/products/docker-toolbox
+[Docker for Mac]: https://docs.docker.com/docker-for-mac/
+[localtest.me]: https://http://readme.localtest.me/
