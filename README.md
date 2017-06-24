@@ -14,8 +14,8 @@ docker-compose up -d
 
 ### 2. claim your first local wiki
 
-Point your browser to https://localtest.me.  Your browser will warn
-present a security warning because this is using a self-signed TLS
+Point your browser to https://localtest.me.  Your browser will present
+a security warning because this is using a self-signed TLS
 certificate.  Proceed with caution and then click the lock icon around
 the bottom left corner.
 
