@@ -37,8 +37,21 @@ Some really helpful places to start here: http://hello.ward.bay.wiki.org/
 ### 5. expand your farm
 
 Point your browser to https://homestead.localtest.me and notice that
-this is a new wiki, and already claimed by you.  (Not all wiki's do
-that particular trick, and we'll explain the magic later.)
+this is a new wiki, and already claimed by you.  There are several
+parts of this example which combine to make it extremely easy to
+create new plots in the wiki farm:
+
+* [localtest.me](http://readme.localtest.me) is a public domain name
+  which is configured so that all sub-domains point at `127.0.0.1`,
+  the loopback address of your own computer.
+* the `Caddyfile` we use also accepts requests for all domains and
+  sub-domains and directs those to our `web` service where federated
+  wiki runs.
+* the `config.json` sets the wiki into farm mode and accepts requests
+  for all sub-domains of localtest.me.
+
+These three things together allow the creation of new wikis by simply
+choosing a new sub-domain in our web browser.
 
 ### 6. experiment with plugins
 
