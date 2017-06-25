@@ -11,15 +11,13 @@ services:
       - "80:80"
       - "443:443"
   web:
-    build:
-      context: ./web
+    build: ./web
     ports:
       - "3000:3000"
       - "4000:4000"
     init: true
     volumes:
       - dot-wiki:/home/app/.wiki
-      # - "./dot-wiki/config.json:/home/app/.wiki/config.json"
 
 volumes:
   dot-wiki:

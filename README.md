@@ -21,16 +21,12 @@ the bottom left corner.
 
 ### 3. rename the randomly generated owner
 
-This part is still more fiddly than I'd like.  When you claim the site
-the owner name is randomly generated.  This trick will let you choose
-your own name:
+When you claim the site the owner name is randomly generated.  I've
+included a script in the docker image to change the owner's name:
 
 ``` bash
-docker-compose run --rm web \
-  perl -pi -e 's/RANDOM-NAME/CORRECT-NAME/' \
-  .wiki/localtest.me.owner.json
-
-# restart wiki to pick up that change
+docker-compose run --rm web bin/set-owner-name YOUR NAME
+# restart web to pick up these config changes
 docker-compose restart web
 ```
 
@@ -43,6 +39,26 @@ Some really helpful places to start here: http://hello.ward.bay.wiki.org/
 Point your browser to https://homestead.localtest.me and notice that
 this is a new wiki, and already claimed by you.  (Not all wiki's do
 that particular trick, and we'll explain the magic later.)
+
+### 6. experiment with plugins
+
+The `admin` value in `config.json` must match the site owner's secret
+in order for that owner to use [plugmatic].  There's another script in
+the docker image to make that change:
+
+``` bash
+docker-compose run --rm web bin/set-admin-to-owner
+# restart web to pick up these config changes
+docker-compose restart web
+```
+
+With this in place, you can use plugmatic to install plugins in your
+local wiki farm.  As of this writing the plugins do not get installed
+in a persistent location in the container.  Next reboot of the `web`
+service will reset the container to its original state without the
+plugins installed.
+
+[plugmatic]: http://plugins.fed.wiki.org/about-plugmatic-plugin.html
 
 # Notes that maybe only apply to me
 
