@@ -1,0 +1,8 @@
+https://image-transporter.localtest.me,
+http://image-transporter.localtest.me {
+  gzip
+  tls self_signed
+  proxy / images:4010 {
+    transparent
+  }
+}

@@ -1,3 +1,5 @@
+import *-Caddyfile
+
 :443,
 :80
 gzip
