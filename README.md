@@ -86,7 +86,7 @@ docker run --rm -v proxy.localtest.me:/proxy alpine:3.5 \
   < images/image-transporter-Caddyfile
 
 # tell caddy to reload its configs
-docker-compose kill -s HUP proxy
+docker-compose kill -s USR1 proxy
 ```
 
 Now you can find the local image transporter running at:
