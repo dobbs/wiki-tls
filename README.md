@@ -81,9 +81,10 @@ it:
 
 ``` bash
 # install the image-transporter-Caddyfile:
-docker run --rm -v proxy.localtest.me:/proxy alpine:3.5 \
-  tee /proxy/image-transporter-Caddyfile \
-  < images/image-transporter-Caddyfile
+docker run --rm \
+  -v $PWD/images:/images \
+  -v proxy.localtest.me:/proxy alpine:3.5 \
+  cp /images/image-transporter-Caddyfile /proxy
 
 # tell caddy to reload its configs
 docker-compose kill -s USR1 proxy
