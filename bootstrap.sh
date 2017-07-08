@@ -38,13 +38,11 @@ create-docker-environment() {
 }
 
 create-named-volumes() {
-    docker volume create --name proxy.localtest.me
     docker volume create --name wiki.localtest.me
 }
 
 open-portal-to-named-volumes() {
     docker run --name ping -d \
-           -v proxy.localtest.me:/proxy \
            -v wiki.localtest.me:/dot-wiki \
            buildpack-deps:jessie-curl ping -i 60 localhost
 }
@@ -52,7 +50,6 @@ open-portal-to-named-volumes() {
 install-configs-in-named-volumes() {
     cd $COMPOSE_DIR
     docker cp dot-wiki/config.json ping:/dot-wiki/config.json
-    docker cp proxy/Caddyfile ping:/proxy/Caddyfile
     docker-compose run --rm --user root -e TINI_SUBREAPER=1 web chown -R app:app .wiki
 }
 

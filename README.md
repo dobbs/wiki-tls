@@ -76,29 +76,9 @@ plugins installed.
 ### 7. experiment with image-transporter
 
 This example also includes a copy of the [image-transporter] running
-in an adjacent container.  There are a couple manual things to enable
-it:
-
-``` bash
-# install the image-transporter-Caddyfile:
-docker run --rm \
-  -v $PWD/images:/images \
-  -v proxy.localtest.me:/proxy alpine:3.5 \
-  cp /images/image-transporter-Caddyfile /proxy
-
-# tell caddy to reload its configs
-docker-compose kill -s USR1 proxy
-```
-
-Now you can find the local image transporter running at:
-https://image-transporter.localtest.me
-
+in an adjacent container: https://image-transporter.localtest.me.
 Creating a wiki page that uses this transporter is left as an exercise
-for the reader.  This works with an `include` directive in
-`proxy/Caddyfile` and `images/image-transporter-Caddyfile` which
-directs requests to https://image-transporter.localtest.me to the
-`images` service.  I expect to use that same trick to create a
-development environment where I can experiment with plugins of my own.
+for the reader.
 
 [image-transporter]: http://ward.asia.wiki.org/home.c2.com:4010/welcome-visitors
 

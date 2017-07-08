@@ -2,11 +2,10 @@ version: "2.2"
 
 services:
   proxy:
-    image: dobbs/proxy:0.5.0
-    build: ./proxy
+    image: dobbs/proxy:latest
     init: true
     volumes:
-      - proxy:/etc/proxy
+      - ./images/image-transporter-Caddyfile:/etc/proxy/image-transporter-Caddyfile
     ports:
       - "80:80"
       - "443:443"
@@ -29,6 +28,3 @@ volumes:
   dot-wiki:
     external:
       name: wiki.localtest.me
-  proxy:
-    external:
-      name: proxy.localtest.me
