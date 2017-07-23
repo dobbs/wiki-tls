@@ -6,10 +6,15 @@ connected to The Internet...
 ### 1. launch the docker composition
 
 ``` bash
+# create a volume where your pages and configs will be saved
+docker volume create wiki.localtest.me
+
+# launch the services
 cp .env.example .env
-docker-compose build
-./bootstrap.sh
 docker-compose up -d
+
+# inspect the logs to find the password you'll need to edit pages
+docker-compose logs | grep admin
 ```
 
 ### 2. claim your first local wiki
@@ -17,29 +22,19 @@ docker-compose up -d
 Point your browser to https://localtest.me.  Your browser will present
 a security warning because this is using a self-signed TLS
 certificate.  Proceed with caution and then click the lock icon around
-the bottom left corner.
+the bottom left corner to authenticate.  Use the admin password you
+found in the logs from step 1.
 
-### 3. rename the randomly generated owner
-
-When you claim the site the owner name is randomly generated.  I've
-included a script in the docker image to change the owner's name:
-
-``` bash
-docker-compose run --rm web bin/set-owner-name YOUR NAME
-# restart web to pick up these config changes
-docker-compose restart web
-```
-
-### 4. create a few pages
+### 3. create a few pages
 
 Some really helpful places to start here: http://hello.ward.bay.wiki.org/
 
-### 5. expand your farm
+### 4. expand your farm
 
 Point your browser to https://homestead.localtest.me and notice that
-this is a new wiki, and already claimed by you.  There are several
-parts of this example which combine to make it extremely easy to
-create new plots in the wiki farm:
+this is a new wiki, and already claimed by you, The Owner.  There are
+several parts of this example which combine to make it extremely easy
+to create new plots in the wiki farm:
 
 * [localtest.me](http://readme.localtest.me) is a public domain name
   which is configured so that all sub-domains point at `127.0.0.1`,
@@ -53,27 +48,18 @@ create new plots in the wiki farm:
 These three things together allow the creation of new wikis by simply
 choosing a new sub-domain in our web browser.
 
-### 6. experiment with plugins
+### 5. experiment with plugins
 
-The `admin` value in `config.json` must match the site owner's secret
-in order for that owner to use [plugmatic].  There's another script in
-the docker image to make that change:
-
-``` bash
-docker-compose run --rm web bin/set-admin-to-owner
-# restart web to pick up these config changes
-docker-compose restart web
-```
-
-With this in place, you can use plugmatic to install plugins in your
-local wiki farm.  As of this writing the plugins do not get installed
-in a persistent location in the container.  Next reboot of the `web`
-service will reset the container to its original state without the
-plugins installed.
+The `admin` value in `config.json` is pre-configured to match the site
+owner's secret.  With this in place, you can use [plugmatic] to
+install plugins in your local wiki farm.  As of this writing the
+plugins do not get installed in a persistent location in the
+container.  The next reboot of the `web` service will reset the
+container to its original state without the plugins installed.
 
 [plugmatic]: http://plugins.fed.wiki.org/about-plugmatic-plugin.html
 
-### 7. experiment with image-transporter
+### 6. experiment with image-transporter
 
 This example also includes a copy of the [image-transporter] running
 in an adjacent container: https://image-transporter.localtest.me.
@@ -81,6 +67,17 @@ Creating a wiki page that uses this transporter is left as an exercise
 for the reader.
 
 [image-transporter]: http://ward.asia.wiki.org/home.c2.com:4010/welcome-visitors
+
+### 7. rename the randomly generated owner
+
+When you feel inclined, I've included a script in the docker image to
+change the owner's name:
+
+``` bash
+docker-compose run --rm web bin/set-owner-name YOUR NAME
+# restart web to pick up these config changes
+docker-compose restart web
+```
 
 # Notes that maybe only apply to me
 

@@ -10,14 +10,15 @@ services:
       - "80:80"
       - "443:443"
   web:
-    image: dobbs/wiki:0.5.0
-    build: ./web
-    ports:
-      - "3000:3000"
-      - "4000:4000"
+    image: dobbs/farm:latest
     init: true
     volumes:
       - dot-wiki:/home/app/.wiki
+    ports:
+      - "3000:3000"
+    environment:
+      DOMAIN: localtest.me
+      COOKIE: secure
   images:
     build: ./images
     ports:
