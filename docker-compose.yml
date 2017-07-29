@@ -5,11 +5,11 @@ services:
     image: dobbs/proxy:latest
     init: true
     volumes:
-      - ./images/image-transporter-Caddyfile:/etc/proxy/image-transporter-Caddyfile
+      - "./Caddyfile:/etc/proxy/Caddyfile"
     ports:
       - "80:80"
       - "443:443"
-  web:
+  farm:
     image: dobbs/farm:latest
     init: true
     volumes:
@@ -20,10 +20,10 @@ services:
       DOMAIN: localtest.me
       COOKIE: secure
   images:
-    build: ./images
+    image: dobbs/image-transporter
+    init: true
     ports:
       - "4010:4010"
-    init: true
 
 volumes:
   dot-wiki:

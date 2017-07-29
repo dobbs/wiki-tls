@@ -6,3 +6,11 @@ http://image-transporter.localtest.me {
     transparent
   }
 }
+
+:443,
+:80
+gzip
+tls self_signed
+proxy / farm:3000 {
+  transparent
+}
