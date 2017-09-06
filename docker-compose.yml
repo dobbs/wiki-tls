@@ -10,7 +10,7 @@ services:
       - "80:80"
       - "443:443"
   farm:
-    image: dobbs/farm:latest
+    image: dobbs/farm:0.12.0
     init: true
     volumes:
       - dot-wiki:/home/app/.wiki

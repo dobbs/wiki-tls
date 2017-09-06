@@ -79,6 +79,39 @@ docker-compose run --rm web bin/set-owner-name YOUR NAME
 docker-compose restart web
 ```
 
+### other admin tricks
+
+#### backup the wiki
+
+``` bash
+docker run --rm -it \
+  -v "wiki.localtest.me:/.wiki" \
+  -v "$PWD:/dest" \
+  alpine:3.5\
+  sh -c 'tar zcf /dest/wiki.localtest.me.$(date +%Y-%m-%d-%H%M).tgz .wiki'
+```
+
+#### restore a backup
+
+``` bash
+TARBALL=wiki.localtest.me.2017-08-31-1824.tgz
+docker run --rm -it \
+  -v "wiki.localtest.me:/.wiki" \
+  -v "$PWD:/backup" \
+  alpine:3.5 tar zxf /backup/$TARBALL
+```
+
+#### update all the related packages
+
+``` bash
+docker-compose exec farm npm install -g --prefix . wiki
+docker-compose restart farm
+```
+
+These changes will survive a restart of the container, but if you stop
+and remove the container, newly created containers will not include
+these updates.
+
 # Notes that maybe only apply to me
 
 I have [The Docker Toolbox] installed on an older Mac which does not
