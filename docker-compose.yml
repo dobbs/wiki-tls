@@ -10,20 +10,16 @@ services:
       - "80:80"
       - "443:443"
   farm:
-    image: dobbs/farm:0.12.0
+    image: dobbs/farm:0.12.2
     init: true
     volumes:
       - dot-wiki:/home/app/.wiki
-    ports:
-      - "3000:3000"
     environment:
       DOMAIN: localtest.me
       COOKIE: secure
   images:
     image: dobbs/image-transporter
     init: true
-    ports:
-      - "4010:4010"
 
 volumes:
   dot-wiki:
