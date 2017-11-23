@@ -5,7 +5,7 @@ services:
     image: dobbs/proxy:0.10.10
     init: true
     volumes:
-      - "./Caddyfile:/etc/proxy.d/image-transporter.localtest.me.caddyfile"
+      - "./image-transporter.localtest.me.caddyfile:/etc/proxy.d/image-transporter.localtest.me.caddyfile"
     environment:
       ORIGIN: farm:3000
     ports:
