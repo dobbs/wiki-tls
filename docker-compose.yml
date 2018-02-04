@@ -4,25 +4,19 @@ services:
   proxy:
     image: dobbs/proxy:0.10.10
     init: true
-    volumes:
-      - "./image-transporter.localtest.me.caddyfile:/etc/proxy.d/image-transporter.localtest.me.caddyfile"
     environment:
       ORIGIN: farm:3000
     ports:
       - "80:80"
       - "443:443"
   farm:
-    image: dobbs/farm:0.12.2
+    image: dobbs/farm:0.13.0
     init: true
     volumes:
       - dot-wiki:/home/app/.wiki
     environment:
       DOMAIN: localtest.me
       COOKIE: secure
-  images:
-    image: dobbs/image-transporter
-    init: true
-
 volumes:
   dot-wiki:
     external:

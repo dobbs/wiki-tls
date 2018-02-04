@@ -1,0 +1,9 @@
+version: "2.2"
+
+services:
+  proxy:
+    volumes:
+      - "./image-transporter.localtest.me.caddyfile:/etc/proxy.d/image-transporter.localtest.me.caddyfile"
+  images:
+    image: dobbs/image-transporter
+    init: true

@@ -1,4 +1,4 @@
-# wiki.localtest.me: a local Wiki farm, security_type=friends, and TLS proxy
+# wiki.localtest.me: a local Wiki farm and TLS proxy
 
 Assuming you already have a local docker machine, and that you're
 connected to The Internet...
@@ -54,7 +54,7 @@ The `admin` value in `config.json` is pre-configured to match the site
 owner's secret.  With this in place, you can use [plugmatic] to
 install plugins in your local wiki farm.  As of this writing the
 plugins do not get installed in a persistent location in the
-container.  The next reboot of the `web` service will reset the
+container.  The next reboot of the `farm` service will reset the
 container to its original state without the plugins installed.
 
 [plugmatic]: http://plugins.fed.wiki.org/about-plugmatic-plugin.html
@@ -74,7 +74,7 @@ When you feel inclined, I've included a script in the docker image to
 change the owner's name:
 
 ``` bash
-docker-compose run --rm web bin/set-owner-name YOUR NAME
+docker-compose run --rm farm bin/set-owner-name YOUR NAME
 # restart web to pick up these config changes
 docker-compose restart web
 ```
