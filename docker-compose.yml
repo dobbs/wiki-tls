@@ -2,7 +2,7 @@ version: "2.2"
 
 services:
   proxy:
-    image: dobbs/proxy:0.10.10
+    image: dobbs/proxy:0.10.11
     init: true
     environment:
       ORIGIN: farm:3000
@@ -10,8 +10,15 @@ services:
       - "80:80"
       - "443:443"
   farm:
-    image: dobbs/farm:0.13.0
+    extends: farmshare
     init: true
+    depends_on:
+      - farmconfig
+  farmconfig:
+    extends: farmshare
+    command: ./configure-wiki
+  farmshare:
+    image: dobbs/farm:0.14.0
     volumes:
       - dot-wiki:/home/app/.wiki
     environment:

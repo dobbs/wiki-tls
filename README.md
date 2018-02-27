@@ -1,5 +1,7 @@
 # wiki.localtest.me: a local Wiki farm and TLS proxy
 
+See wiki site: https://local-farm.wiki.dbbs.co
+
 Assuming you already have a local docker machine, and that you're
 connected to The Internet...
 
@@ -68,7 +70,7 @@ for the reader.
 
 [image-transporter]: http://ward.asia.wiki.org/home.c2.com:4010/welcome-visitors
 
-### 7. rename the randomly generated owner
+### 7. rename the generic owner
 
 When you feel inclined, I've included a script in the docker image to
 change the owner's name:
