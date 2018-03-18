@@ -2,7 +2,7 @@ version: "2.2"
 
 services:
   proxy:
-    image: dobbs/proxy:0.10.11
+    image: dobbs/proxy:0.10.10-certs
     init: true
     environment:
       ORIGIN: farm:3000
@@ -14,6 +14,7 @@ services:
     init: true
     depends_on:
       - farmconfig
+    command: /home/app/bin/wiki
   farmconfig:
     extends: farmshare
     command: ./configure-wiki
@@ -24,6 +25,7 @@ services:
     environment:
       DOMAIN: localtest.me
       COOKIE: secure
+    command: /bin/true
 volumes:
   dot-wiki:
     external:
