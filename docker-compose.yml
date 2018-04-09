@@ -2,7 +2,7 @@ version: "2.2"
 
 services:
   proxy:
-    image: dobbs/proxy:0.10.10-certs
+    image: dobbs/proxy:0.10.12
     init: true
     environment:
       ORIGIN: farm:3000
