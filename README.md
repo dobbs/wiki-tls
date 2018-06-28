@@ -8,15 +8,13 @@ connected to The Internet...
 ### 1. launch the docker composition
 
 ``` bash
-# create a volume where your pages and configs will be saved
-docker volume create wiki.localtest.me
-
 # launch the services
 cp .env.example .env
 docker-compose up -d
 
-# inspect the logs to find the password you'll need to edit pages
-docker-compose logs | grep admin
+# find the password you'll need to edit pages
+docker-compose run --rm farm \
+  jq -r .admin .wiki/config.json
 ```
 
 ### 2. claim your first local wiki
@@ -87,20 +85,40 @@ docker-compose restart web
 
 ``` bash
 docker run --rm -it \
-  -v "wiki.localtest.me:/.wiki" \
+  -v "wiki_localtest_me:/.wiki" \
   -v "$PWD:/dest" \
-  alpine:3.5\
-  sh -c 'tar zcf /dest/wiki.localtest.me.$(date +%Y-%m-%d-%H%M).tgz .wiki'
+  alpine\
+  sh -c 'tar zcf /dest/wiki.localtest.me.$(date +%a).tgz .wiki'
+cp wiki.localtest.me.$(date +%a).tgz wiki.localtest.me.$(date +%b).tgz
+cp wiki.localtest.me.$(date +%a).tgz wiki.localtest.me.$(date +%Y).tgz
 ```
+
+The naming convention for backup files reduces risk of consuming disk
+space.  This Thursday's backup will overwrite last Thursday's.  This
+month's backup will overwrite last year's backup of the same month.
+
+Day, month, and year names are vulnerable to differences in locale
+inside the container (probably UTC) and outside the container
+(probably local time).
 
 #### restore a backup
 
 ``` bash
-TARBALL=wiki.localtest.me.2017-08-31-1824.tgz
+TARBALL=wiki.localtest.me.Jun.tgz
 docker run --rm -it \
-  -v "wiki.localtest.me:/.wiki" \
+  -v "wiki_localtest_me:/.wiki" \
   -v "$PWD:/backup" \
-  alpine:3.5 tar zxf /backup/$TARBALL
+  alpine tar zxf /backup/$TARBALL
+```
+
+#### One-time changes
+
+If you are upgrading your local wiki, please refer to the following notes.
+
+##### On 28 June 2018 the volume was renamed where wiki pages are saved.
+
+``` bash
+./migration/2018-06-28-rename-volumes
 ```
 
 #### update all the related packages

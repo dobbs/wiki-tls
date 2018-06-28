@@ -1,0 +1,51 @@
+#!/bin/bash
+set -euo pipefail
+
+main() {
+  setup-env
+  if source-exists; then
+    copy-source-to-target
+    if copy-succeded ; then
+      destroy-source
+    fi
+  fi
+}
+
+setup-env() {
+  # readonly SOURCE=wiki.localtest.me
+  # readonly TARGET=the_target
+  readonly SOURCE=migrate_test_bar
+  readonly TARGET=migrate_test_baz
+}
+
+source-exists() {
+  docker volume ls -q | fgrep -q $SOURCE
+}
+
+copy-source-to-target() {
+  farm-run \
+    bash -c 'chown app:app /target && cp -a /source/* /target/'
+}
+
+copy-succeded() {
+  # diff exits 0 when there are no differences
+  farm-run \
+    diff -qru --no-dereference /source/ /target/
+}
+
+destroy-source() {
+  docker volume rm $SOURCE &> /dev/null
+}
+
+farm-run() {
+  docker \
+    run \
+    --rm \
+    -v "$SOURCE:/source" \
+    -v "$TARGET:/target" \
+    --user root \
+    dobbs/farm:0.14.0 \
+    "$@"
+}
+
+main
