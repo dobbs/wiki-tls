@@ -10,21 +10,18 @@ services:
       - "80:80"
       - "443:443"
   farm:
-    extends: farmshare
+    extends: farmconfig
     init: true
     depends_on:
       - farmconfig
     command: /home/app/bin/wiki
   farmconfig:
-    extends: farmshare
-    command: ./configure-wiki
-  farmshare:
     image: dobbs/farm:0.14.0
     volumes:
       - localtest_me:/home/app/.wiki
     environment:
       DOMAIN: localtest.me
       COOKIE: secure
-    command: /bin/true
+    command: ./configure-wiki
 volumes:
   localtest_me: {}
