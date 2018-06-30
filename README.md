@@ -84,31 +84,22 @@ docker-compose restart web
 #### backup the wiki
 
 ``` bash
-docker run --rm -it \
-  -v "wiki_localtest_me:/.wiki" \
-  -v "$PWD:/dest" \
-  alpine\
-  sh -c 'tar zcf /dest/wiki.localtest.me.$(date +%a).tgz .wiki'
+docker-compose run --rm --no-deps -T farm \
+  tar cz .wiki > wiki.localtest.me.$(date +%a).tgz
 cp wiki.localtest.me.$(date +%a).tgz wiki.localtest.me.$(date +%b).tgz
 cp wiki.localtest.me.$(date +%a).tgz wiki.localtest.me.$(date +%Y).tgz
 ```
 
 The naming convention for backup files reduces risk of consuming disk
 space.  This Thursday's backup will overwrite last Thursday's.  This
-month's backup will overwrite last year's backup of the same month.
-
-Day, month, and year names are vulnerable to differences in locale
-inside the container (probably UTC) and outside the container
-(probably local time).
+month's backup will overwrite the same month from last year.
 
 #### restore a backup
 
 ``` bash
 TARBALL=wiki.localtest.me.Jun.tgz
-docker run --rm -it \
-  -v "wiki_localtest_me:/.wiki" \
-  -v "$PWD:/backup" \
-  alpine tar zxf /backup/$TARBALL
+docker-compose run --rm --no-deps -T farm \
+  tar zxf /dev/stdin < $TARBALL
 ```
 
 #### One-time changes
