@@ -12,10 +12,8 @@ main() {
 }
 
 setup-env() {
-  # readonly SOURCE=wiki.localtest.me
-  # readonly TARGET=the_target
-  readonly SOURCE=migrate_test_bar
-  readonly TARGET=migrate_test_baz
+  readonly SOURCE=wiki.localtest.me
+  readonly TARGET=wiki_localtest_me
 }
 
 source-exists() {
