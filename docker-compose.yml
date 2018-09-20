@@ -1,27 +1,33 @@
-version: "2.2"
+version: "2.4"
+
+x-farm-base:
+  &farm-base
+  image: dobbs/farm:0.14.0
+  volumes:
+    - localtest_me:/home/app/.wiki
+  environment:
+    DOMAIN: localtest.me
+    COOKIE: secure
 
 services:
   proxy:
     image: dobbs/proxy:0.10.12
     init: true
+    restart: 'on-failure'
     environment:
       ORIGIN: farm:3000
     ports:
       - "80:80"
       - "443:443"
   farm:
-    extends: farmconfig
+    << : *farm-base
     init: true
+    restart: 'on-failure'
     depends_on:
       - farmconfig
     command: /home/app/bin/wiki
   farmconfig:
-    image: dobbs/farm:0.14.0
-    volumes:
-      - localtest_me:/home/app/.wiki
-    environment:
-      DOMAIN: localtest.me
-      COOKIE: secure
+    << : *farm-base
     command: ./configure-wiki
 volumes:
   localtest_me: {}

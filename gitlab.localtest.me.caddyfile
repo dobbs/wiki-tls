@@ -1,0 +1,8 @@
+https://gitlab.localtest.me,
+http://gitlab.localtest.me {
+  gzip
+  tls self_signed
+  proxy / gitlab:80 {
+    transparent
+  }
+}

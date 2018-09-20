@@ -1,9 +1,29 @@
-version: "2.2"
+version: "2.4"
 
 services:
   proxy:
     volumes:
       - "./image-transporter.localtest.me.caddyfile:/etc/proxy.d/image-transporter.localtest.me.caddyfile"
+      - "./gitlab.localtest.me.caddyfile:/etc/proxy.d/gitlab.localtest.me.caddyfile"
   images:
     image: dobbs/image-transporter
     init: true
+    restart: 'on-failure'
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: 'on-failure'
+    hostname: 'gitlab.localtest.me'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.localtest.me'
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - 22:22
+    volumes:
+      - 'config:/etc/gitlab'
+      - 'logs:/var/log/gitlab'
+      - 'data:/var/opt/gitlab'
+volumes:
+  config: {}
+  logs: {}
+  data: {}
