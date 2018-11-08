@@ -1,27 +1,34 @@
-version: "2.2"
+version: "3.7"
+
+x-farmshared:
+  &farmshared
+  image: dobbs/farm:0.14.0
+  volumes:
+    - localtest_me:/home/app/.wiki
+  environment:
+    DOMAIN: localtest.me
+    COOKIE: secure
 
 services:
   proxy:
     image: dobbs/proxy:0.10.12
     init: true
+    restart: unless-stopped
     environment:
       ORIGIN: farm:3000
     ports:
       - "80:80"
       - "443:443"
   farm:
-    extends: farmconfig
+    << : *farmshared
     init: true
+    restart: unless-stopped
     depends_on:
       - farmconfig
     command: /home/app/bin/wiki
   farmconfig:
-    image: dobbs/farm:0.14.0
-    volumes:
-      - localtest_me:/home/app/.wiki
-    environment:
-      DOMAIN: localtest.me
-      COOKIE: secure
+    << : *farmshared
+    restart: "no"
     command: ./configure-wiki
 volumes:
   localtest_me: {}
