@@ -1,0 +1,39 @@
+#!/bin/bash
+
+readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+cd $DIR/..
+
+cat <<'EOF' | docker-compose exec -T farm bash
+
+export NPM_CONFIG_PREFIX=$HOME
+cd $HOME/lib/node_modules/wiki
+
+NEED_RESTART=1
+
+maybe_npm_link() {
+  local PLUGIN="$1"
+  if [ -L node_modules/$PLUGIN ]; then
+     echo $PLUGIN already symlinked
+  else
+     npm link ../../../fedwiki/$PLUGIN
+     NEED_RESTART=0
+  fi
+}
+
+maybe_npm_link wiki-plugin-frame
+maybe_npm_link wiki-plugin-graphviz
+
+if [ -z $NEED_RESTART ]; then
+  touch $HOME/.wiki/.need-restart
+fi
+EOF
+
+
+if docker-compose run --no-deps --rm farm bash -c '[[ -f .wiki/.need-restart ]]';
+then
+  docker-compose run --no-deps --rm farm bash -c 'rm .wiki/.need-restart'
+  docker-compose restart farm
+else
+  echo No restart necessary
+fi  

@@ -2,7 +2,7 @@ version: "3.7"
 
 x-farmshared:
   &farmshared
-  image: dobbs/farm:0.50.1
+  image: dobbs/farm:0.51.0
   volumes:
     - localtest_me:/home/app/.wiki
   environment:
